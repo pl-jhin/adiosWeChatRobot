@@ -34,7 +34,7 @@ def handle_response():
     repeatNumber = 0
     repeatNum = 5
     chenyuList = []
-    token = ""
+    token = "JJASDHJAHDJKJAHKJ"
     fanergou =0
     game = 0
     while True:
@@ -76,12 +76,10 @@ def handle_response():
                 if _type == 1:  # 文本消息
                     if _to == "wxid_h16w1hu54u3u22":
                         if content.find(name) >= 0:
-                            if content.find("加入群聊") >= 0 and (
-                                    _from_group_member == "wxid_hzv6pusf2iy022" or _from_group_member == "wxid_w564oe60al5g12"):
+                            if content.find("加入群聊") >= 0 and _from_group_member in userList:
                                 my_chatroom_list.append(_from)
                                 spy.send_text(_from, name+"加入了群聊", "wxid_h16w1hu54u3u22")
-                            if content.find("退出群聊") >= 0 and (
-                                    _from_group_member == "wxid_hzv6pusf2iy022" or _from_group_member == "wxid_w564oe60al5g12"):
+                            if content.find("退出群聊") >= 0 and _from_group_member in userList:
                                 my_chatroom_list.remove(_from)
                                 spy.send_text(_from, "有缘再见", "wxid_h16w1hu54u3u22")
                         if game==1:
@@ -117,12 +115,18 @@ def handle_response():
                                 # if content.find(token) >=0 and _from in my_chatroom_list:
                                 #     userList.append(_from_group_member)
                                 #     spy.send_text(_from, "设置权限成功", "wxid_h16w1hu54u3u22")
+                                auth = 0
                                 if content.find("设置权限") >=0 and _from_group_member == "wxid_hzv6pusf2iy022":
-                                    content = content.replace("屎王", "")
+                                    content = content.replace(name, "")
                                     content = content.replace("设置权限", "")
                                     content = content.replace(" ", "")
                                     token = content
-
+                                    auth = 1
+                                    spy.send_text(_from, "当前token为"+token, "wxid_h16w1hu54u3u22")
+                                if content.find(token) >= 0 and auth == 0:
+                                        spy.send_text(_from, "你是我的master吗", "wxid_h16w1hu54u3u22")
+                                        userList.append(_from_group_member)
+                                        token = "HSDJAHDKAHJDHKASHDjk"
                                 if content.find("开始复读") >= 0 and _from in my_chatroom_list :
                                     spy.send_text(_from, "来复读了", "wxid_h16w1hu54u3u22")
                                     repeat = 1
@@ -130,7 +134,7 @@ def handle_response():
                                     spy.send_text(_from, "关闭复读了", "wxid_h16w1hu54u3u22")
                                     repeat = 0
                                 if content.find("查找成语") >= 0 :
-                                    content = content.replace("屎王","")
+                                    content = content.replace(name,"")
                                     content = content.replace("查找成语","")
                                     content = content.replace(" ","")
                                     chenyuList = chengyujielong(content)
